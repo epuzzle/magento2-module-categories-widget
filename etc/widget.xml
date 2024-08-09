@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="categories_list" class="EPuzzle\CategoriesWidget\Block\Category\CategoriesList" is_email_compatible="true"
+            placeholder_image="Magento_CatalogWidget::images/products_list.png" ttl="86400">
+        <label translate="true">ePuzzle Catalog Categories List</label>
+        <description translate="true">List of Categories</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="false" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="category_id" xsi:type="text" required="false" visible="true">
+                <label translate="true">Category ID</label>
+            </parameter>
+            <parameter name="is_tg_env" xsi:type="select" required="true" visible="true"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Is Telegram Web Environment?</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="EPuzzle_CategoriesWidget::category/categories_list.phtml" selected="true">
+                        <label translate="true">Default Categories List Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

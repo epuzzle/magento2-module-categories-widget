@@ -1,0 +1,67 @@
+<?php
+
+declare(strict_types=1);
+
+use EPuzzle\CategoriesWidget\Block\Category\CategoriesList;
+use Magento\Catalog\Model\Category;
+use Magento\Framework\Escaper;
+
+/**
+ * @var CategoriesList $block
+ * @var Escaper $escaper
+ */
+
+$categories = $block->getCategoriesCollection()->getItems();
+?>
+<?php if (count($categories)): ?>
+<ul class="categories-list">
+    <?php /** @var Category $category */foreach ($block->getCategoriesCollection() as $category): ?>
+    <li class="category">
+        <?php
+            $url = $escaper->escapeUrl($block->getCategoryUrl($category));
+            $name = $escaper->escapeHtml($category->getName());
+            $description = $category->getDescription();
+            $subCategories = $category->getChildrenCategories()->getItems()
+        ?>
+        <?php if ($imageUrl = $category->getImageUrl()): ?>
+            <div class="image-box">
+                <a class="image-link"
+                   href="<?= $escaper->escapeUrl($url); ?>"
+                   title="<?= $name; ?>">
+                    <img src="<?= $escaper->escapeUrl($imageUrl); ?>"
+                         alt="<?= $escaper->escapeHtml($name); ?>"
+                         loading="lazy">
+                </a>
+            </div>
+        <?php endif; ?>
+        <div class="details">
+            <a class="link"
+               href="<?= $escaper->escapeUrl($url); ?>"
+               title="<?= $name; ?>">
+                <?= $escaper->escapeHtml($name); ?>
+            </a>
+            <?php if ($description): ?>
+                <p class="description"><?= $description; ?></p>
+            <?php endif; ?>
+            <?php if (count($subCategories = $category->getChildrenCategories()->getItems())): ?>
+                <div class="sub-categories">
+                    <ul>
+                        <?php foreach ($subCategories as $subCategory): ?>
+                        <?php
+                            $subUrl = $escaper->escapeUrl($block->getCategoryUrl($subCategory));
+                            $subName = $escaper->escapeHtml($subCategory->getName());
+                        ?>
+                        <li>
+                            <a class="link" href="<?= $escaper->escapeUrl($subUrl); ?>" title="<?= $subName; ?>">
+                                <?= $escaper->escapeHtml($subName); ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+    </li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
